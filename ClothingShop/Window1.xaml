@@ -13,19 +13,18 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Content="Добавить" Click="AddButton_Click"/>
-            <Button Content="Редактировать"/>
+            <Button Content="Редактировать" Click="EditButton_Click"/>
             <Button Content="Удалить"/>
-            <Button Content="Обновить"/>
         </StackPanel>
-        <DataGrid Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid x:Name="ProductsDataGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" x:Name="Id" Width="50"/>
-                <DataGridTextColumn Header="Наименование" x:Name="Name" Width="200"/>
-                <DataGridTextColumn Header="Категория" x:Name="Category" Width="150"/>
-                <DataGridTextColumn Header="Размер" x:Name="Size" Width="80"/>
-                <DataGridTextColumn Header="Цена" x:Name="Price" Width="100"/>
-                <DataGridTextColumn Header="Количество на складе" x:Name="StockQuantity" Width="150"/>
-                <DataGridTextColumn Header="Сезон" x:Name="Season" Width="120"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="200"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
+                <DataGridTextColumn Header="Размер" Binding="{Binding Size}" Width="80"/>
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
+                <DataGridTextColumn Header="Количество на складе" Binding="{Binding StockQuantity}" Width="150"/>
+                <DataGridTextColumn Header="Сезон" Binding="{Binding Season}" Width="120"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

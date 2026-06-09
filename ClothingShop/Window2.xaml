@@ -9,27 +9,27 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Наименование" Margin="8,8,0,0"/>
-            <TextBox x:Name="Name" Width="230" Margin="52.5,8,0,0"/>
+            <TextBox x:Name="Name" Width="230" Margin="52.5,8,0,0" Padding="0,5,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Категория" Margin="8,8,0,0"/>
-            <TextBox x:Name="Category" Width="230" Margin="79.5,8,0,0"/>
+            <ComboBox x:Name="Category" Width="230" Margin="79.0,8,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Размер" Margin="8,8,0,0"/>
-            <TextBox x:Name="Size" Width="230" Margin="95.5,8,0,0"/>
+            <ComboBox x:Name="Size" Width="230" Margin="95.5,8,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Цена" Margin="8,8,0,0"/>
-            <TextBox x:Name="Price" Width="230" Margin="107,8,0,0"/>
+            <TextBox x:Name="Price" Width="230" Margin="107,8,0,0" Padding="0,5,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Количество на складе" Margin="8,8,0,0"/>
-            <TextBox x:Name="StockQuantity" Width="230" Margin="15,8,0,0"/>
+            <TextBox x:Name="StockQuantity" Width="230" Margin="15,8,0,0" Padding="0,5,0,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Сезон" Margin="8,8,0,0"/>
-            <TextBox x:Name="Season" Width="230" Margin="102,8,0,0"/>
+            <ComboBox x:Name="Season" Width="230" Margin="102,8,0,0"/>
         </StackPanel>
         <TextBlock x:Name="VseDannie" Margin="5,10,5,0"/>
         <StackPanel Orientation="Horizontal" Margin="0,25,0,0">
