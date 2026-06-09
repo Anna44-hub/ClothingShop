@@ -36,17 +36,32 @@ namespace ClothingShop
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {   
-            var window2 = new Window2();
-            if (window2.ShowDialog() == true) 
+            Window2 addWindow = new Window2();
+            if (addWindow.ShowDialog() == true) 
             {
-                var newProduct = window2.NewProduct;
+                // А этим механизмом получаем то, что передавали с того окна
+                Product newProduct = addWindow.NewProduct;
                 // Сначала проверяется есть ли записи в таблице. Если нет, то id - 1, а если есть то мы находим максимальное значение (Max) из списка всех id, полученных с помощью лямбда-функции(p => p.id).
                 int newId = _products.Count > 0 ? _products.Max(p => p.ID) + 1 : 1;
                 newProduct.ID = newId;
                 _products.Add(newProduct);
             }
         }
-
-
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProductsDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите товар для редактирования.");
+                return;
+            }
+            Product selectedProduct = (Product)ProductsDataGrid.SelectedItem;
+            Window2 editWindow = new Window2(selectedProduct);
+            if (editWindow.ShowDialog() == true)
+            {
+                // Так как мы редактировали напрямую объект selectedProduct,
+                // а он лежит в _products, то таблица обновится сама (благодаря INotifyPropertyChanged)
+                // Ничего дополнительно делать не нужно.
+            }
+        }
     }
 }

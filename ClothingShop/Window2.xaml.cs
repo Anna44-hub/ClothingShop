@@ -19,10 +19,29 @@ namespace ClothingShop
     /// </summary>
     public partial class Window2 : Window
     {
-        public Product NewProduct { get; private set; }
+        Product _productToEdit;
+        bool isEditMode;
+
+        // Конструктор для добавления нового товара
         public Window2()
         {
             InitializeComponent();
+            FillComboBoxes();
+            isEditMode = false;
+        }
+
+        // Конструктор для редактирования (передаём товар, который нужно изменить)
+        public Window2(Product existingProduct)
+        {
+            InitializeComponent();
+            FillComboBoxes();
+            _productToEdit = existingProduct;
+            isEditMode = true;
+            LoadProductData(existingProduct); // заполняем поля данными
+        }
+
+        private void FillComboBoxes()
+        {
             Category.Items.Add("Футболки");
             Category.Items.Add("Джинсы");
             Category.Items.Add("Куртки");
@@ -37,86 +56,111 @@ namespace ClothingShop
             Season.Items.Add("Зима");
             Season.Items.Add("Демисезон");
         }
+        private void LoadProductData(Product product)
+        {
+            Name.Text = product.Name;
+            Category.Text = product.Category;
+            Size.Text = product.Size;
+            Price.Text = product.Price.ToString();
+            StockQuantity.Text = product.StockQuantity.ToString();
+            Season.Text = product.Season;
+        }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Validate())
+                return;
+
+            if (isEditMode)
+                SaveEdit();
+            else
+                SaveAdd();
+
+            DialogResult = true;
+            Close();
+        }
+
+        // Валидация
+        bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Name.Text))
+            {
+                VseDannie.Text = "Ошибка. Вы не ввели наименование";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Category.Text))
+            {
+                VseDannie.Text = "Ошибка. Вы не выбрали категорию";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(Size.Text))
+            {
+                VseDannie.Text = "Ошибка. Вы не выбрали размер";
+                return false;
+            }
+
+            int price;
+            if (!int.TryParse(Price.Text, out price))
+            {
+                VseDannie.Text = "Ошибка. Введите числовое значение цены";
+                return false;
+            }
+            if (price < 100 || price > 100000)
+            {
+                VseDannie.Text = "Ошибка. Введите цену от 100 до 100000";
+                return false;
+            }
+
+            int stock;
+            if (!int.TryParse(StockQuantity.Text, out stock))
+            {
+                VseDannie.Text = "Ошибка. Введите числовое значение количества на складе";
+                return false;
+            }
+            if (stock < 100 || stock > 10000)
+            {
+                VseDannie.Text = "Ошибка. Введите количество от 100 до 10000";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(Season.Text))
+            {
+                VseDannie.Text = "Ошибка. Вы не выбрали сезон";
+                return false;
+            }
+            return true;
+        }
+
+        void SaveAdd()
+        {
+            // Создаём новый объект Product
+            NewProduct = new Product
+            {
+                Name = Name.Text,
+                Category = Category.Text,
+                Size = Size.Text,
+                Price = int.Parse(Price.Text),
+                StockQuantity = int.Parse(StockQuantity.Text),
+                Season = Season.Text
+            };
+        }
+
+        private void SaveEdit()
+        {
+            // Меняем свойства у объекта, который нам передали в конструкторе
+            _productToEdit.Name = Name.Text;
+            _productToEdit.Category = Category.Text;
+            _productToEdit.Size = Size.Text;
+            _productToEdit.Price = int.Parse(Price.Text);
+            _productToEdit.StockQuantity = int.Parse(StockQuantity.Text);
+            _productToEdit.Season = Season.Text;
+        }
+        //Этот механизм используется для возврата созданного товара из диалогового окна Window2 в главное окно Window1.
+        public Product NewProduct { get; private set; }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             this.Close();
-        }
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            string enteredName = Name.Text;
-            string enteredCategory = Category.Text;
-            string enteredSize = Size.Text;
-            string enteredPrice = Price.Text;
-            string enteredStockQuantity = StockQuantity.Text;
-            string enteredSeason = Season.Text;
-            bool is_valid = true;
-
-            // Валидация
-            if (string.IsNullOrWhiteSpace(enteredName))
-            {
-                VseDannie.Text = "Ошибка. Вы не ввели имя";
-                is_valid = false;
-            }
-            if (string.IsNullOrWhiteSpace(enteredCategory))
-            {
-                VseDannie.Text = "Ошибка. Вы не выбрали категорию";
-                is_valid = false;
-            }
-            if (string.IsNullOrWhiteSpace(enteredSize))
-            {
-                VseDannie.Text = "Ошибка. Вы не выбрали размер";
-                is_valid = false;
-            }
-            int numberPrice;
-            if (Int32.TryParse(enteredPrice, out numberPrice))
-            {
-                if (numberPrice < 100 || numberPrice > 100000)
-                {
-                    VseDannie.Text = "Ошибка. Введите цену от 100 до 100000";
-                    is_valid = false;
-                }
-            }
-            else
-            {
-                VseDannie.Text = "Ошибка. Введите числовое значение цены";
-                is_valid = false;
-            }
-            int numberStockQuantity;
-            if (Int32.TryParse(enteredStockQuantity, out numberStockQuantity))
-            {
-                if (numberStockQuantity < 100 || numberStockQuantity > 10000)
-                {
-                    VseDannie.Text = "Ошибка. Введите количество товара на складе от 100 до 10000";
-                    is_valid = false;
-                }
-            }
-            else
-            {
-                VseDannie.Text = "Ошибка. Введите числовое значение количества товара на складе";
-                is_valid = false;
-            }
-            if (string.IsNullOrWhiteSpace(enteredSeason))
-            {
-                VseDannie.Text = "Ошибка. Вы не выбрали сезон";
-                is_valid = false;
-            }
-            if (is_valid == true)
-            {
-                NewProduct = new Window1.Product
-                {
-                    Name = enteredName,
-                    Category = enteredCategory,
-                    Size = enteredSize,
-                    Price = numberPrice,
-                    StockQuantity = numberStockQuantity,
-                    Season = enteredSeason,
-                };
-
-                DialogResult = true;
-                this.Close();
-            }     
         }
     }
 }
