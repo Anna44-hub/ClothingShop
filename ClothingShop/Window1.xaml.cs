@@ -21,5 +21,11 @@ namespace ClothingShop
         {
             InitializeComponent();
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {   
+            var window2 = new Window2();
+            window2.Show();  
+        }
     }
 }

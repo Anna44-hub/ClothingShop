@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClothingShop"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Магазин одежды" MinWidth="1024" MinHeight="600" Width="1024" Height="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Добавить" Click="AddButton_Click"/>
+            <Button Content="Редактировать"/>
+            <Button Content="Удалить"/>
+            <Button Content="Обновить"/>
+        </StackPanel>
+        <DataGrid Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" x:Name="Id" Width="50"/>
+                <DataGridTextColumn Header="Наименование" x:Name="Name" Width="200"/>
+                <DataGridTextColumn Header="Категория" x:Name="Category" Width="150"/>
+                <DataGridTextColumn Header="Размер" x:Name="Size" Width="80"/>
+                <DataGridTextColumn Header="Цена" x:Name="Price" Width="100"/>
+                <DataGridTextColumn Header="Количество на складе" x:Name="StockQuantity" Width="150"/>
+                <DataGridTextColumn Header="Сезон" x:Name="Season" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

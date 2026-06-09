@@ -5,17 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClothingShop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="350" >
+        Title="MainWindow" Width="400" Height="350">
     <StackPanel Orientation="Vertical" Background="#FFADA3F9">
         <TextBlock Text="Логин" Width="300" Margin="0,5,0,5" TextAlignment="Center"/>
         <TextBox x:Name="LoginInpup" Width="300" Margin="0,5,0,5"/>
         <TextBlock Text="Пароль" Width="300" Margin="0,5,0,5" TextAlignment="Center"/>
         <PasswordBox x:Name="PasswordInput" Width="300" Margin="0,5,0,5" PasswordChar="*" />
         <StackPanel Orientation="Horizontal">
-            <Button Content="Вход" Width="100" Margin="68,5,0,5" Click="ShowPasswor_Click" />
+            <Button Content="Вход" Width="100" Margin="95,5,0,5" Click="ShowPasswor_Click" />
             <Button Content="Выход" Width="100" Margin="10,5,0,5" Click="ExitButton_Click" />
         </StackPanel>
         <TextBlock x:Name="PasswordResult" Foreground="DarkGreen" />
-        <TextBlock Text="проверка" Width="300" Margin="0,5,0,5" TextAlignment="Center"/>
     </StackPanel>
 </Window>
