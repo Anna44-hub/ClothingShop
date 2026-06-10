@@ -19,20 +19,66 @@ namespace ClothingShop
     public partial class Window1 : Window
     {
         ObservableCollection<Product> _products = new ObservableCollection<Product>();
+        ObservableCollection<Product1> _products1 = new ObservableCollection<Product1>();
         public Window1()
         {
             InitializeComponent();
             ProductsDataGrid.ItemsSource = _products;
+            PostavkiDataGrid.ItemsSource = _products1;
         }
-        public class Product
+        // INotifyPropertyChanged - контракт (заставляет класс иметь возможность давать сигнал)
+        public class Product : System.ComponentModel.INotifyPropertyChanged
         {
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public string Category { get; set; }
-            public string Size { get; set; }
-            public int Price { get; set; }
-            public int StockQuantity { get; set; }
-            public string Season { get; set; }
+            private int _id;
+            private string _name;
+            private string _category;
+            private string _size;
+            private double _price;
+            private int _stockQuantity;
+            private string _season;
+
+            public int ID
+            {
+                get => _id;
+                set { _id = value; OnPropertyChanged("ID"); }
+            }
+            public string Name
+            {
+                get => _name;
+                set { _name = value; OnPropertyChanged("Name"); }
+            }
+            public string Category
+            {
+                get => _category;
+                set { _category = value; OnPropertyChanged("Category"); }
+            }
+            public string Size
+            {
+                get => _size;
+                set { _size = value; OnPropertyChanged("Size"); }
+            }
+            public double Price
+            {
+                get => _price;
+                set { _price = value; OnPropertyChanged("Price"); }
+            }
+            public int StockQuantity
+            {
+                get => _stockQuantity;
+                set { _stockQuantity = value; OnPropertyChanged("StockQuantity"); }
+            }
+            public string Season
+            {
+                get => _season;
+                set { _season = value; OnPropertyChanged("Season"); }
+            }
+            //PropertyChanged - сам сигнал, который перехватывает таблица и заменяет свои данные
+            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+            protected void OnPropertyChanged(string propName)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propName));
+            }
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {   
@@ -61,6 +107,133 @@ namespace ClothingShop
                 // Так как мы редактировали напрямую объект selectedProduct,
                 // а он лежит в _products, то таблица обновится сама (благодаря INotifyPropertyChanged)
                 // Ничего дополнительно делать не нужно.
+            }
+        }
+        void Double_click(object sender, RoutedEventArgs e)
+        {
+            if (ProductsDataGrid.SelectedItem is Product selectedProduct)
+            {
+                Window2 editWindow = new Window2(selectedProduct);
+                editWindow.ShowDialog();
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ProductsDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите товар для удаления");
+                return;
+            }
+            // получаем объект класса product из выбранной строчки
+            Product selectedProduct = (Product)ProductsDataGrid.SelectedItem;
+            MessageBoxResult result = MessageBox.Show($"Вы действительно хотите удалить товар \"{selectedProduct.Name}\"?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                _products.Remove(selectedProduct);
+            }
+        }
+
+        public class Product1 : System.ComponentModel.INotifyPropertyChanged
+        {
+            private int _id;
+            private string _provider;
+            private string _dateofdelivery;
+            private string _name;
+            private int _quantity;
+            private double _costofdelivery;
+
+            public int ID
+            {
+                get => _id;
+                set { _id = value; OnPropertyChanged("ID"); }
+            }
+
+            public string Provider
+            {
+                get => _provider;
+                set { _provider = value; OnPropertyChanged("Provider"); }
+            }
+            public string DateOfDelivery
+            {
+                get => _dateofdelivery;
+                set { _dateofdelivery = value; OnPropertyChanged("DateOfDelivery"); }
+            }
+            public string Name
+            {
+                get => _name;
+                set { _name = value; OnPropertyChanged("Name"); }
+            }
+            public int Quantity
+            {
+                get => _quantity;
+                set { _quantity = value; OnPropertyChanged("Quantity"); }
+            }
+            public double CostOfDelivery
+            {
+                get => _costofdelivery;
+                set { _costofdelivery = value; OnPropertyChanged("CostOfDelivery"); }
+            }
+
+            //PropertyChanged - сам сигнал, который перехватывает таблица и заменяет свои данные
+            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+            protected void OnPropertyChanged(string propName)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propName));
+            }
+        }
+        private void Add1Button_Click(object sender, RoutedEventArgs e)
+        {
+            Window3 addWindow = new Window3();
+            if (addWindow.ShowDialog() == true)
+            {
+                // А этим механизмом получаем то, что передавали с того окна
+                Product1 newProduct = addWindow.NewProduct1;
+                // Сначала проверяется есть ли записи в таблице. Если нет, то id - 1, а если есть то мы находим максимальное значение (Max) из списка всех id, полученных с помощью лямбда-функции(p => p.id).
+                int newId = _products1.Count > 0 ? _products1.Max(p => p.ID) + 1 : 1;
+                newProduct.ID = newId;
+                _products1.Add(newProduct);
+            }
+        }
+        private void Edit1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (PostavkiDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите товар для редактирования.");
+                return;
+            }
+            Product1 selectedProduct = (Product1)PostavkiDataGrid.SelectedItem;
+            Window3 editWindow = new Window3(selectedProduct);
+            if (editWindow.ShowDialog() == true)
+            {
+                // Так как мы редактировали напрямую объект selectedProduct,
+                // а он лежит в _products, то таблица обновится сама (благодаря INotifyPropertyChanged)
+                // Ничего дополнительно делать не нужно.
+            }
+        }
+        void Double1_click(object sender, RoutedEventArgs e)
+        {
+            if (PostavkiDataGrid.SelectedItem is Product1 selectedProduct)
+            {
+                Window3 editWindow = new Window3(selectedProduct);
+                editWindow.ShowDialog();
+            }
+        }
+
+        private void Delete1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (PostavkiDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите товар для удаления");
+                return;
+            }
+            // получаем объект класса product из выбранной строчки
+            Product1 selectedProduct = (Product1)PostavkiDataGrid.SelectedItem;
+            MessageBoxResult result = MessageBox.Show($"Вы действительно хотите удалить товар \"{selectedProduct.Name}\"?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                _products1.Remove(selectedProduct);
             }
         }
     }

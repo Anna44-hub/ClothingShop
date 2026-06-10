@@ -7,25 +7,57 @@
         mc:Ignorable="d"
         Title="Магазин одежды" MinWidth="1024" MinHeight="600" Width="1024" Height="600">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Добавить" Click="AddButton_Click"/>
-            <Button Content="Редактировать" Click="EditButton_Click"/>
-            <Button Content="Удалить"/>
-        </StackPanel>
-        <DataGrid x:Name="ProductsDataGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="200"/>
-                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
-                <DataGridTextColumn Header="Размер" Binding="{Binding Size}" Width="80"/>
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
-                <DataGridTextColumn Header="Количество на складе" Binding="{Binding StockQuantity}" Width="150"/>
-                <DataGridTextColumn Header="Сезон" Binding="{Binding Season}" Width="120"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TabControl>
+            <TabItem Header="Товары">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Добавить" Click="AddButton_Click"/>
+                        <Button Content="Редактировать" Click="EditButton_Click"/>
+                        <Button Content="Удалить" Click="DeleteButton_Click"/>
+                    </StackPanel>
+                    <DataGrid x:Name="ProductsDataGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="Double_click">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="200"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="150"/>
+                            <DataGridTextColumn Header="Размер" Binding="{Binding Size}" Width="80"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="100"/>
+                            <DataGridTextColumn Header="Количество на складе" Binding="{Binding StockQuantity}" Width="150"/>
+                            <DataGridTextColumn Header="Сезон" Binding="{Binding Season}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Поставки">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Добавить" Click="Add1Button_Click"/>
+                        <Button Content="Редактировать" Click="Edit1Button_Click"/>
+                        <Button Content="Удалить" Click="Delete1Button_Click"/>
+                    </StackPanel>
+                    <DataGrid x:Name="PostavkiDataGrid" Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" MouseDoubleClick="Double1_click">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
+                            <DataGridTextColumn Header="Поставщик" Binding="{Binding Provider}" Width="200"/>
+                            <DataGridTextColumn Header="Дата поставки" Binding="{Binding DateOfDelivery}" Width="150"/>
+                            <DataGridTextColumn Header="Товар" Binding="{Binding Name}" Width="80"/>
+                            <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="100"/>
+                            <DataGridTextColumn Header="Стоимость поставки" Binding="{Binding CostOfDelivery}" Width="150"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </Window>

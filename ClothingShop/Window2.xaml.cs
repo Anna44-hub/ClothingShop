@@ -87,6 +87,21 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Вы не ввели наименование";
                 return false;
             }
+            bool hasLetter = false;
+            foreach (char c in Name.Text)
+            {
+                if (char.IsLetter(c))
+                {
+                    hasLetter = true;
+                    break;
+                }
+            }
+
+            if (!hasLetter)
+            {
+                VseDannie.Text = "Ошибка. Наименование должно содержать хотя бы одну букву";
+                return false;
+            }
             if (string.IsNullOrWhiteSpace(Category.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не выбрали категорию";
@@ -98,8 +113,8 @@ namespace ClothingShop
                 return false;
             }
 
-            int price;
-            if (!int.TryParse(Price.Text, out price))
+            double price;
+            if (!double.TryParse(Price.Text, out price))
             {
                 VseDannie.Text = "Ошибка. Введите числовое значение цены";
                 return false;
@@ -116,9 +131,9 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Введите числовое значение количества на складе";
                 return false;
             }
-            if (stock < 100 || stock > 10000)
+            if (stock < 0 || stock > 10000)
             {
-                VseDannie.Text = "Ошибка. Введите количество от 100 до 10000";
+                VseDannie.Text = "Ошибка. Введите количество от 0 до 10000";
                 return false;
             }
 
@@ -138,7 +153,7 @@ namespace ClothingShop
                 Name = Name.Text,
                 Category = Category.Text,
                 Size = Size.Text,
-                Price = int.Parse(Price.Text),
+                Price = double.Parse(Price.Text),
                 StockQuantity = int.Parse(StockQuantity.Text),
                 Season = Season.Text
             };
@@ -150,7 +165,7 @@ namespace ClothingShop
             _productToEdit.Name = Name.Text;
             _productToEdit.Category = Category.Text;
             _productToEdit.Size = Size.Text;
-            _productToEdit.Price = int.Parse(Price.Text);
+            _productToEdit.Price = double.Parse(Price.Text);
             _productToEdit.StockQuantity = int.Parse(StockQuantity.Text);
             _productToEdit.Season = Season.Text;
         }
@@ -162,5 +177,6 @@ namespace ClothingShop
             DialogResult = false;
             this.Close();
         }
+
     }
 }

@@ -26,7 +26,7 @@ namespace ClothingShop
             {
                 string enteredLogin = LoginInpup.Text;
                 string enteredPassword = PasswordInput.Password;
-                if (enteredLogin == "s" && enteredPassword == "f")
+                if (enteredLogin == "seller" && enteredPassword == "fashion2026")
                 {
                     var window1 = new Window1();
                     window1.Show();
