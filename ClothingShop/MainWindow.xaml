@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClothingShop"
         mc:Ignorable="d"
-        Title="Авторизация" Width="400" Height="350">
+            Title="Авторизация" Width="400" Height="350">
     <StackPanel Orientation="Vertical">
         <TextBlock Text="Логин" Width="300" Margin="0,5,0,5" TextAlignment="Center"/>
         <TextBox x:Name="LoginInpup" Width="300" Height="30" Margin="0,5,0,5"/>

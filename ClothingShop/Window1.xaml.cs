@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +28,9 @@ namespace ClothingShop
             PostavkiDataGrid.ItemsSource = _products1;
         }
         // INotifyPropertyChanged - контракт (заставляет класс иметь возможность давать сигнал)
+        /// <summary>
+        /// Класс товара (одежда) для главного окна магазина
+        /// </summary>
         public class Product : System.ComponentModel.INotifyPropertyChanged
         {
             private int _id;
@@ -37,53 +41,63 @@ namespace ClothingShop
             private int _stockQuantity;
             private string _season;
 
+            // Идентификатор товара
             public int ID
             {
                 get => _id;
                 set { _id = value; OnPropertyChanged("ID"); }
             }
+            // Наименование товара
             public string Name
             {
                 get => _name;
                 set { _name = value; OnPropertyChanged("Name"); }
             }
+            // Категория товара (Футболки, Джинсы, Куртки, Обувь)
             public string Category
             {
                 get => _category;
                 set { _category = value; OnPropertyChanged("Category"); }
             }
+            // Размер товара (XS, S, M, L, XL, XXL)
             public string Size
             {
                 get => _size;
                 set { _size = value; OnPropertyChanged("Size"); }
             }
+            // Цена товара в рублях
             public double Price
             {
                 get => _price;
                 set { _price = value; OnPropertyChanged("Price"); }
             }
+            // Количество товара на складе
             public int StockQuantity
             {
                 get => _stockQuantity;
                 set { _stockQuantity = value; OnPropertyChanged("StockQuantity"); }
             }
+            // Сезон (Лето, Зима, Демисезон)
             public string Season
             {
                 get => _season;
                 set { _season = value; OnPropertyChanged("Season"); }
             }
             //PropertyChanged - сам сигнал, который перехватывает таблица и заменяет свои данные
+            // Событие уведомления об изменении свойства (для обновления DataGrid)
             public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+            // Вызов события изменения свойства
             protected void OnPropertyChanged(string propName)
             {
                 if (PropertyChanged != null)
                     PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propName));
             }
         }
+        // Добавление нового товара
         private void AddButton_Click(object sender, RoutedEventArgs e)
-        {   
+        {
             Window2 addWindow = new Window2();
-            if (addWindow.ShowDialog() == true) 
+            if (addWindow.ShowDialog() == true)
             {
                 // А этим механизмом получаем то, что передавали с того окна
                 Product newProduct = addWindow.NewProduct;
@@ -93,6 +107,7 @@ namespace ClothingShop
                 _products.Add(newProduct);
             }
         }
+        // Редактирование выбранного товара
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (ProductsDataGrid.SelectedItem == null)
@@ -104,11 +119,12 @@ namespace ClothingShop
             Window2 editWindow = new Window2(selectedProduct);
             if (editWindow.ShowDialog() == true)
             {
-                // Так как мы редактировали напрямую объект selectedProduct,
+                // Так как я редактировала напрямую объект selectedProduct,
                 // а он лежит в _products, то таблица обновится сама (благодаря INotifyPropertyChanged)
                 // Ничего дополнительно делать не нужно.
             }
         }
+        // Обработка двойного клика по товару (открытие редактирования)
         void Double_click(object sender, RoutedEventArgs e)
         {
             if (ProductsDataGrid.SelectedItem is Product selectedProduct)
@@ -117,7 +133,7 @@ namespace ClothingShop
                 editWindow.ShowDialog();
             }
         }
-
+        // Удаление выбранного товара
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (ProductsDataGrid.SelectedItem == null)
@@ -133,7 +149,7 @@ namespace ClothingShop
                 _products.Remove(selectedProduct);
             }
         }
-
+        // Класс поставки товаров
         public class Product1 : System.ComponentModel.INotifyPropertyChanged
         {
             private int _id;
@@ -142,33 +158,37 @@ namespace ClothingShop
             private string _name;
             private int _quantity;
             private double _costofdelivery;
-
+            // Идентификатор поставки
             public int ID
             {
                 get => _id;
                 set { _id = value; OnPropertyChanged("ID"); }
             }
-
+            // Поставщик товара
             public string Provider
             {
                 get => _provider;
                 set { _provider = value; OnPropertyChanged("Provider"); }
             }
+            // Дата поставки (в формате ДД.ММ.ГГГГ)
             public string DateOfDelivery
             {
                 get => _dateofdelivery;
                 set { _dateofdelivery = value; OnPropertyChanged("DateOfDelivery"); }
             }
+            // Наименование поставленного товара
             public string Name
             {
                 get => _name;
                 set { _name = value; OnPropertyChanged("Name"); }
             }
+            // Количество поставленного товара
             public int Quantity
             {
                 get => _quantity;
                 set { _quantity = value; OnPropertyChanged("Quantity"); }
             }
+            // Стоимость поставки (в рублях)
             public double CostOfDelivery
             {
                 get => _costofdelivery;
@@ -176,7 +196,9 @@ namespace ClothingShop
             }
 
             //PropertyChanged - сам сигнал, который перехватывает таблица и заменяет свои данные
+            // Событие уведомления об изменении свойства
             public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+            // Вызов события изменения свойства
             protected void OnPropertyChanged(string propName)
             {
                 if (PropertyChanged != null)

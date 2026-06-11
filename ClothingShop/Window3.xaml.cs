@@ -61,19 +61,23 @@ namespace ClothingShop
             Close();
         }
 
-        // Валидация
+        // Валидация данных при добавлении/редактировании поставки
+        //return true - если данные корректны, return false - если есть ошибка
         bool Validate()
         {
+            // Проверка поставщика
             if (string.IsNullOrWhiteSpace(Provider.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не ввели поставщика";
                 return false;
             }
+            // Проверка даты поставки (формат ДД.ММ.ГГГГ)
             if (string.IsNullOrWhiteSpace(DateOfDelivery.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не ввели дату";
                 return false;
             }
+
             DateTime parsedDate;
             bool isDateValid = DateTime.TryParseExact(
                 DateOfDelivery.Text,
@@ -86,6 +90,7 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Введите дату в формате ДД.ММ.ГГГГ (напр. 22.05.2007)";
                 return false;
             }
+            // Проверка названия товара
             if (string.IsNullOrWhiteSpace(Name.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не ввели название товара";
@@ -105,7 +110,7 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Товар должен содержать хотя бы одну букву";
                 return false;
             }
-
+            // Проверка стоимости поставки
             double cost;
             if (!double.TryParse(CostOfDelivery.Text, out cost))
             {
@@ -117,7 +122,7 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Введите цену от 100 до 1000000";
                 return false;
             }
-
+            // Проверка количества
             int stock;
             if (!int.TryParse(Quantity.Text, out stock))
             {

@@ -79,9 +79,11 @@ namespace ClothingShop
             Close();
         }
 
-        // Валидация
+        // Валидация данных при добавлении/редактировании товара
+        // return true - если данные корректны, return false - если есть ошибка
         bool Validate()
         {
+            // Проверка наименования
             if (string.IsNullOrWhiteSpace(Name.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не ввели наименование";
@@ -102,17 +104,19 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Наименование должно содержать хотя бы одну букву";
                 return false;
             }
+            // Проверка категории
             if (string.IsNullOrWhiteSpace(Category.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не выбрали категорию";
                 return false;
             }
+            // Проверка размера
             if (string.IsNullOrWhiteSpace(Size.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не выбрали размер";
                 return false;
             }
-
+            // Проверка цены
             double price;
             if (!double.TryParse(Price.Text, out price))
             {
@@ -124,7 +128,7 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Введите цену от 100 до 100000";
                 return false;
             }
-
+            // Проверка количества на складе
             int stock;
             if (!int.TryParse(StockQuantity.Text, out stock))
             {
@@ -136,7 +140,7 @@ namespace ClothingShop
                 VseDannie.Text = "Ошибка. Введите количество от 0 до 10000";
                 return false;
             }
-
+            // Проверка сезона
             if (string.IsNullOrWhiteSpace(Season.Text))
             {
                 VseDannie.Text = "Ошибка. Вы не выбрали сезон";
